@@ -8,6 +8,25 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(require-theme 'modus-themes)
+
+(defun my/modus-themes-custom-faces (&rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     `(acm-frame-border-face ((,c :background ,bg-active)))
+     `(acm-frame-default-face ((,c :background ,bg-dim)))
+     `(acm-frame-select-face ((,c :inherit bold :background ,bg-completion)))
+     `(lsp-bridge-alive-mode-line ((,c :inherit italic :weight normal)))
+     `(lsp-bridge-diagnostics-error-face ((,c :underline (:style wave :color ,underline-err))))
+     `(lsp-bridge-diagnostics-hint-face ((,c :underline (:style wave :color ,underline-note))))
+     `(lsp-bridge-diagnostics-info-face ((,c :underline (:style wave :color ,underline-note))))
+     `(lsp-bridge-diagnostics-warning-face ((,c :underline (:style wave :color ,underline-warning))))
+     `(lsp-bridge-kill-process ((,c :inherit bold :foreground ,err))))))
+
+(add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
+
+(modus-themes-load-theme 'modus-operandi-tinted)
+
 ;; Make C-m discernible from RET
 (define-key input-decode-map [?\C-m] [C-m])
 
