@@ -35,7 +35,8 @@
  ("C-<return>" . other-window)
  ("C-;" . comment-dwim)
  ("C-'" . jump-to-register)
- ("M-'" . point-to-register))
+ ("M-'" . point-to-register)
+ ("<f5>" . modus-themes-toggle))
 
 (defun my/toggle-display-line-numbers ()
   "Toggle display of relative line numbers in the buffer."

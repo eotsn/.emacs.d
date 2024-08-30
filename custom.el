@@ -8,11 +8,11 @@
  '(column-number-mode t)
  '(completion-category-overrides '((file (styles basic partial-completion))))
  '(completion-styles '(orderless basic))
- '(custom-enabled-themes '(modus-operandi-tinted))
  '(delete-selection-mode t)
  '(indent-tabs-mode nil)
  '(lsp-bridge-enable-hover-diagnostic t)
  '(modus-themes-bold-constructs t)
+ '(modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
  '(native-comp-async-report-warnings-errors 'silent)
  '(native-comp-jit-compilation-deny-list '("lsp-bridge"))
  '(package-selected-packages
