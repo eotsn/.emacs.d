@@ -103,6 +103,8 @@
                ("M-n" . lsp-bridge-diagnostic-jump-next)
                ("M-p" . lsp-bridge-diagnostic-jump-prev))
   :config
+  ;; Free the RET key for less intrusive behavior
+  (keymap-unset acm-mode-map "RET")
   (global-lsp-bridge-mode))
 
 (use-package magit
