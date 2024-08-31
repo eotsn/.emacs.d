@@ -139,6 +139,10 @@
 (use-package orderless
   :ensure t)
 
+(use-package pragmatapro-lig
+  :load-path "site-lisp"
+  :hook ((prog-mode text-mode) . pragmatapro-lig-mode))
+
 (use-package vertico
   :ensure t
   :config
