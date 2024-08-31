@@ -5,6 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(acm-enable-icon nil)
+ '(avy-timeout-seconds 0.2)
  '(column-number-mode t)
  '(completion-category-overrides '((file (styles basic partial-completion))))
  '(completion-styles '(orderless basic))
@@ -16,9 +17,9 @@
  '(native-comp-async-report-warnings-errors 'silent)
  '(native-comp-jit-compilation-deny-list '("lsp-bridge"))
  '(package-selected-packages
-   '(consult embark embark-consult exec-path-from-shell expand-region
-             go-mode helpful keycast magit marginalia markdown-mode
-             multiple-cursors orderless vertico vterm wgrep yasnippet))
+   '(avy consult embark embark-consult exec-path-from-shell expand-region
+         go-mode helpful keycast magit marginalia markdown-mode
+         multiple-cursors orderless vertico vterm wgrep yasnippet))
  '(project-vc-ignores '("node_modules/"))
  '(read-extended-command-predicate 'command-completion-default-include-p)
  '(recentf-mode t)

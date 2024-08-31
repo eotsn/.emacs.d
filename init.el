@@ -33,7 +33,7 @@
 (bind-keys
  ("C-c o" . customize-option)
  ("C-<return>" . other-window)
- ("C-;" . comment-dwim)
+ ("C-c ;" . comment-dwim)
  ("C-'" . jump-to-register)
  ("M-'" . point-to-register)
  ("<f5>" . modus-themes-toggle))
@@ -47,6 +47,12 @@
 (bind-keys :prefix-map toggle-map
            :prefix "C-c x"
            ("n" . my/toggle-display-line-numbers))
+
+(use-package avy
+  :ensure t
+  :bind ("C-;" . avy-goto-char-timer)
+  :config
+  (avy-setup-default))
 
 (use-package consult
   :ensure t
