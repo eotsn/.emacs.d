@@ -46,7 +46,8 @@
 
 (bind-keys :prefix-map toggle-map
            :prefix "C-c x"
-           ("n" . my/toggle-display-line-numbers))
+           ("n" . my/toggle-display-line-numbers)
+           ("w" . whitespace-mode))
 
 (use-package avy
   :ensure t
