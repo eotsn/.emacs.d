@@ -10,6 +10,7 @@
  '(completion-category-overrides '((file (styles basic partial-completion))))
  '(completion-styles '(orderless basic))
  '(delete-selection-mode t)
+ '(electric-pair-mode t)
  '(indent-tabs-mode nil)
  '(lsp-bridge-enable-hover-diagnostic t)
  '(modus-themes-bold-constructs t)
