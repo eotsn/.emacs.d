@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(acm-enable-icon nil)
- '(avy-timeout-seconds 0.2)
+ '(avy-timeout-seconds 0.3)
  '(column-number-mode t)
  '(completion-category-overrides '((file (styles basic partial-completion))))
  '(completion-styles '(orderless basic))
