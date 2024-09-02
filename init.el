@@ -27,6 +27,21 @@
 
 (modus-themes-load-theme 'modus-operandi-tinted)
 
+(defun my/newline-above-and-indent ()
+  "Insert a newline above the current line and move point to the beginning
+of the line."
+  (interactive)
+  (previous-line)
+  (end-of-line)
+  (newline-and-indent))
+
+(defun my/newline-below-and-indent ()
+  "Insert a newline below the current line and move point to the beginning
+of the line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
 ;; Make C-m discernible from RET
 (define-key input-decode-map [?\C-m] [C-m])
 
@@ -36,6 +51,8 @@
  ("C-c ;" . comment-dwim)
  ("C-'" . jump-to-register)
  ("M-'" . point-to-register)
+ ("M-o" . my/newline-below-and-indent)
+ ("M-O" . my/newline-above-and-indent)
  ("<f5>" . modus-themes-toggle))
 
 (defun my/toggle-display-line-numbers ()
