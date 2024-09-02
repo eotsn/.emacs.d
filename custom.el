@@ -19,9 +19,9 @@
  '(native-comp-jit-compilation-deny-list '("lsp-bridge"))
  '(package-selected-packages
    '(avy consult embark embark-consult exec-path-from-shell expand-region
-         go-mode helpful keycast magit marginalia markdown-mode
-         multiple-cursors orderless vertico vterm vundo wgrep
-         yasnippet))
+         helpful keycast magit marginalia markdown-mode
+         multiple-cursors orderless treesit-auto vertico vterm vundo
+         wgrep yasnippet))
  '(project-vc-ignores '("node_modules/"))
  '(read-extended-command-predicate 'command-completion-default-include-p)
  '(recentf-mode t)

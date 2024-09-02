@@ -82,10 +82,6 @@
   :ensure t
   :bind ("C-," . er/expand-region))
 
-(use-package go-mode
-  :ensure t
-  :mode "\\.go\\'")
-
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
@@ -144,6 +140,17 @@
 (use-package pragmatapro-lig
   :load-path "site-lisp"
   :hook (prog-mode text-mode))
+
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (setq treesit-auto-langs
+        (cl-set-difference treesit-auto-langs
+                           '(janet latex markdown)))
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package vertico
   :ensure t
