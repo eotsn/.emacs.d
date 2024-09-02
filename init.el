@@ -97,18 +97,21 @@
 (use-package keycast
   :ensure t
   :bind (:map toggle-map
-              ("k" . keycast-mode-line-mode)
-              ("h" . keycast-header-line-mode)))
+         ("k" . keycast-mode-line-mode)
+         ("h" . keycast-header-line-mode)))
 
 (use-package lsp-bridge
   :demand t
   :load-path "site-lisp/lsp-bridge"
   :bind* (:map lsp-bridge-mode-map
-               ("M-." . lsp-bridge-find-def)
-               ("M-," . lsp-bridge-find-def-return)
-               ("M-?" . lsp-bridge-find-references)
-               ("M-n" . lsp-bridge-diagnostic-jump-next)
-               ("M-p" . lsp-bridge-diagnostic-jump-prev))
+          ("M-g d" . lsp-bridge-find-def)
+          ("M-g ," . lsp-bridge-find-def-return)
+          ("M-g r" . lsp-bridge-find-references)
+          ("M-g D" . lsp-bridge-peek)
+          ("M-g e" . lsp-bridge-diagnostic-list)
+          ("M-g h" . lsp-bridge-popup-documentation)
+          ("M-n" . lsp-bridge-diagnostic-jump-next)
+          ("M-p" . lsp-bridge-diagnostic-jump-prev))
   :config
   ;; Free the RET key for less intrusive behavior
   (keymap-unset acm-mode-map "RET")
@@ -125,8 +128,7 @@
 (use-package markdown-mode
   :ensure t
   :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
+         ("\\.md\\'" . markdown-mode)))
 
 (use-package multiple-cursors
   :ensure t
@@ -141,7 +143,7 @@
 
 (use-package pragmatapro-lig
   :load-path "site-lisp"
-  :hook ((prog-mode text-mode) . pragmatapro-lig-mode))
+  :hook (prog-mode text-mode))
 
 (use-package vertico
   :ensure t
