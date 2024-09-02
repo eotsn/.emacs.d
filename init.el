@@ -153,6 +153,12 @@
   :bind (("C-c t" . vterm)
          ("C-c 4 t" . vterm-other-window)))
 
+(use-package vundo
+  :ensure t
+  :bind ("C-c C-/" . vundo)
+  :config
+  (setq vundo-glyph-alist vundo-unicode-symbols))
+
 (use-package wgrep
   :ensure t)
 
