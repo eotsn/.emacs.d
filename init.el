@@ -81,6 +81,10 @@ of the line."
          ("M-s l" . consult-line)
          ("C-M-'" . consult-register)))
 
+(use-package diminish :ensure t :defer t)
+
+(use-package eldoc :diminish)
+
 (use-package embark
   :ensure t
   :bind (("C-." . embark-act)
@@ -155,6 +159,7 @@ of the line."
   :ensure t)
 
 (use-package pragmatapro-lig
+  :diminish
   :load-path "site-lisp"
   :hook (prog-mode text-mode))
 
@@ -194,10 +199,12 @@ of the line."
   :ensure t)
 
 (use-package which-key
+  :diminish
   :config
   (which-key-mode))
 
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   (yas-global-mode))
