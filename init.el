@@ -169,6 +169,11 @@ of the line."
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package tsx-ts-helper-mode
+  :load-path "site-lisp"
+  :commands (tsx-ts-helper-mode)
+  :hook (tsx-ts-mode . tsx-ts-helper-mode))
+
 (use-package vertico
   :ensure t
   :config
