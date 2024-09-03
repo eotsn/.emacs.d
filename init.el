@@ -68,7 +68,7 @@ of the line."
 
 (use-package avy
   :ensure t
-  :bind ("C-;" . avy-goto-char-timer)
+  :bind ("C-;" . avy-goto-char-2)
   :config
   (avy-setup-default))
 
