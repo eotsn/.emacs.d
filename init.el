@@ -163,6 +163,11 @@ of the line."
   :load-path "site-lisp"
   :hook (prog-mode text-mode))
 
+(use-package rainbow-mode
+  :ensure t
+  :bind (:map toggle-map
+         ("r" . rainbow-mode)))
+
 (use-package treesit-auto
   :ensure t
   :custom
