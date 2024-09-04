@@ -12,6 +12,7 @@
  '(delete-selection-mode t)
  '(electric-pair-mode t)
  '(indent-tabs-mode nil)
+ '(jtsx-enable-jsx-element-tags-auto-sync t)
  '(lsp-bridge-enable-hover-diagnostic t)
  '(modus-themes-bold-constructs t)
  '(modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
@@ -19,9 +20,9 @@
  '(native-comp-jit-compilation-deny-list '("lsp-bridge"))
  '(package-selected-packages
    '(avy consult diminish embark embark-consult exec-path-from-shell
-         expand-region helpful keycast magit marginalia markdown-mode
-         multiple-cursors orderless rainbow-mode treesit-auto vertico
-         vterm vundo wgrep yasnippet))
+         expand-region helpful jtsx keycast magit marginalia
+         markdown-mode multiple-cursors orderless rainbow-mode
+         treesit-auto vertico vterm vundo wgrep yasnippet))
  '(project-vc-ignores '("node_modules/"))
  '(read-extended-command-predicate 'command-completion-default-include-p)
  '(recentf-mode t)

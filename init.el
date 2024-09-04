@@ -179,11 +179,6 @@ of the line."
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(use-package tsx-ts-helper-mode
-  :load-path "site-lisp"
-  :commands (tsx-ts-helper-mode)
-  :hook (tsx-ts-mode . tsx-ts-helper-mode))
-
 (use-package vertico
   :ensure t
   :config
@@ -213,3 +208,30 @@ of the line."
   :diminish yas-minor-mode
   :config
   (yas-global-mode))
+
+;; This package must be loaded after `treesit-auto' to override the
+;; entries inserted into `auto-mode-alist'. Because `:after' doesn't
+;; seem to work we have to rely on ordering instead.
+(use-package jtsx
+  :ensure t
+  :mode (("\\.tsx\\'" . jtsx-tsx-mode)
+         ("\\.ts\\'" . jtsx-typescript-mode))
+  :hook ((jtsx-tsx-mode . hs-minor-mode)
+         (jtsx-typescript-mode . hs-minor-mode))
+  :bind (:map jtsx-tsx-mode-map
+         ("C-c C-j" . jtsx-jump-jsx-element-tag-dwim)
+         ("C-c j o" . jtsx-jump-jsx-opening-tag)
+         ("C-c j c" . jtsx-jump-jsx-closing-tag)
+         ("C-c j r" . jtsx-rename-jsx-element)
+         ("C-c <down>" . jtsx-move-jsx-element-tag-forward)
+         ("C-c <up>" . jtsx-move-jsx-element-tag-backward)
+         ("C-c C-<down>" . jtsx-move-jsx-element-forward)
+         ("C-c C-<up>" . jtsx-move-jsx-element-backward)
+         ("C-c C-S-<down>" . jtsx-move-jsx-element-step-in-forward)
+         ("C-c C-S-<up>" . jtsx-move-jsx-element-step-in-backward)
+         ("C-c j w" . jtsx-wrap-in-jsx-element)
+         ("C-c j u" . jtsx-unwrap-jsx)
+         ("C-c j d" . jtsx-delete-jsx-node)
+         ("C-c j t" . jtsx-toggle-jsx-attributes-orientation)
+         ("C-c j h" . jtsx-rearrange-jsx-attributes-horizontally)
+         ("C-c j v" . jtsx-rearrange-jsx-attributes-vertically)))
