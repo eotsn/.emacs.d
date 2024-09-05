@@ -215,6 +215,9 @@ of the line."
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
+  :bind (:map yas-minor-mode-map
+         ("TAB") ; I use a dedicated key for snippet expansion
+         ("C-<tab>" . yas-expand))
   :config
   (yas-global-mode))
 
