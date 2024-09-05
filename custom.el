@@ -18,6 +18,9 @@
  '(modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
  '(native-comp-async-report-warnings-errors 'silent)
  '(native-comp-jit-compilation-deny-list '("lsp-bridge"))
+ '(org-agenda-files '("~/.todo.org"))
+ '(org-default-notes-file "~/.todo.org")
+ '(org-startup-indented t)
  '(package-selected-packages
    '(avy consult diminish embark embark-consult exec-path-from-shell
          expand-region helpful jtsx keycast magit marginalia

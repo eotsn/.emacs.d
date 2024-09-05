@@ -167,6 +167,15 @@ of the line."
 (use-package orderless
   :ensure t)
 
+(use-package org-mode
+  :bind (("C-c c" . org-capture)
+         ("C-c a" . org-agenda)
+         ("C-c s" . org-store-link)
+         :map org-mode-map
+         ("C-,") ; I use this for `er/expand-region'
+         ("C-'")) ; I use this for `jump-to-register'
+  :hook (org-mode . turn-on-auto-fill))
+
 (use-package pragmatapro-lig
   :diminish
   :load-path "site-lisp"
