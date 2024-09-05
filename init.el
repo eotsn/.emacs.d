@@ -42,6 +42,14 @@ of the line."
   (end-of-line)
   (newline-and-indent))
 
+(defun my/unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
 ;; Make C-m discernible from RET
 (define-key input-decode-map [?\C-m] [C-m])
 
@@ -53,6 +61,7 @@ of the line."
  ("M-'" . point-to-register)
  ("M-o" . my/newline-below-and-indent)
  ("M-O" . my/newline-above-and-indent)
+ ("M-Q" . my/unfill-paragraph)
  ("<f5>" . modus-themes-toggle))
 
 (defun my/toggle-display-line-numbers ()
