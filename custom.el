@@ -23,7 +23,7 @@
  '(org-startup-indented t)
  '(package-selected-packages
    '(avy consult diminish embark embark-consult exec-path-from-shell
-         expand-region helpful jtsx keycast magit marginalia
+         expand-region helpful jinx jtsx keycast magit marginalia
          markdown-mode multiple-cursors orderless rainbow-mode
          treesit-auto vertico vterm vundo wgrep yasnippet))
  '(project-vc-ignores '("node_modules/"))

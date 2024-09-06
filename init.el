@@ -120,6 +120,13 @@ of the line."
          ("C-h x" . helpfu-command)
          ("C-c C-d" . helpful-at-point)))
 
+(use-package jinx
+  :ensure t
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)
+         :map toggle-map
+         ("j" . jinx-mode)))
+
 (use-package keycast
   :ensure t
   :bind (:map toggle-map
