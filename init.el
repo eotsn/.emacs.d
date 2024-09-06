@@ -96,7 +96,7 @@ of the line."
 
 (use-package embark
   :ensure t
-  :bind (("C-." . embark-act)
+  :bind (("M-." . embark-act)
          ("C-h b" . embark-bindings)))
 
 (use-package embark-consult
@@ -137,12 +137,11 @@ of the line."
   :demand t
   :load-path "site-lisp/lsp-bridge"
   :bind* (:map lsp-bridge-mode-map
-          ("M-g d" . lsp-bridge-find-def)
-          ("M-g ," . lsp-bridge-find-def-return)
-          ("M-g r" . lsp-bridge-find-references)
-          ("M-g D" . lsp-bridge-peek)
-          ("M-g e" . lsp-bridge-diagnostic-list)
-          ("M-g h" . lsp-bridge-popup-documentation)
+          ("C-. d" . lsp-bridge-find-def)
+          ("C-. r" . lsp-bridge-find-references)
+          ("C-. D" . lsp-bridge-peek)
+          ("C-. e" . lsp-bridge-diagnostic-list)
+          ("C-. h" . lsp-bridge-popup-documentation)
           ("M-n" . lsp-bridge-diagnostic-jump-next)
           ("M-p" . lsp-bridge-diagnostic-jump-prev))
   :config
