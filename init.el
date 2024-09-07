@@ -118,6 +118,10 @@ of the line."
          ("b" . er/mark-inside-pairs)
          ("m" . er/mark-method-call)))
 
+(use-package forge
+  :ensure t
+  :after magit)
+
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
