@@ -110,7 +110,13 @@ of the line."
 
 (use-package expand-region
   :ensure t
-  :bind ("C-," . er/expand-region))
+  :bind (("C-," . er/expand-region)
+         :prefix-map
+         my-expand-region-map
+         :prefix "C-c ,"
+         ("q" . er/mark-inside-quotes)
+         ("b" . er/mark-inside-pairs)
+         ("m" . er/mark-method-call)))
 
 (use-package helpful
   :ensure t
