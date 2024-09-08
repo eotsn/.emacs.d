@@ -169,21 +169,21 @@ of the line."
 
 (use-package keycast
   :ensure t
-  :bind (:map my-toggle-map
-         ("k" . keycast-mode-line-mode)
-         ("h" . keycast-header-line-mode)))
+  :bind ( :map my-toggle-map
+          ("k" . keycast-mode-line-mode)
+          ("h" . keycast-header-line-mode)))
 
 (use-package lsp-bridge
   :demand t
   :load-path "site-lisp/lsp-bridge"
-  :bind* (:map lsp-bridge-mode-map
-          ("C-. d" . lsp-bridge-find-def)
-          ("C-. r" . lsp-bridge-find-references)
-          ("C-. D" . lsp-bridge-peek)
-          ("C-. e" . lsp-bridge-diagnostic-list)
-          ("C-. h" . lsp-bridge-popup-documentation)
-          ("M-n" . lsp-bridge-diagnostic-jump-next)
-          ("M-p" . lsp-bridge-diagnostic-jump-prev))
+  :bind* ( :map lsp-bridge-mode-map
+           ("C-. d" . lsp-bridge-find-def)
+           ("C-. r" . lsp-bridge-find-references)
+           ("C-. D" . lsp-bridge-peek)
+           ("C-. e" . lsp-bridge-diagnostic-list)
+           ("C-. h" . lsp-bridge-popup-documentation)
+           ("M-n" . lsp-bridge-diagnostic-jump-next)
+           ("M-p" . lsp-bridge-diagnostic-jump-prev))
   :custom
   (acm-enable-icon nil)
   (lsp-bridge-enable-hover-diagnostic t)
@@ -241,8 +241,8 @@ of the line."
 
 (use-package rainbow-mode
   :ensure t
-  :bind (:map my-toggle-map
-         ("r" . rainbow-mode)))
+  :bind ( :map my-toggle-map
+          ("r" . rainbow-mode)))
 
 (use-package treesit-auto
   :ensure t
@@ -282,9 +282,9 @@ of the line."
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :bind (:map yas-minor-mode-map
-         ("TAB") ; I use a dedicated key for snippet expansion
-         ("C-<tab>" . yas-expand))
+  :bind ( :map yas-minor-mode-map
+          ("TAB") ; I use a dedicated key for snippet expansion
+          ("C-<tab>" . yas-expand))
   :config
   (yas-global-mode))
 
@@ -297,22 +297,22 @@ of the line."
          ("\\.ts\\'" . jtsx-typescript-mode))
   :hook ((jtsx-tsx-mode . hs-minor-mode)
          (jtsx-typescript-mode . hs-minor-mode))
-  :bind (:map jtsx-tsx-mode-map
-         ("C-c C-j" . jtsx-jump-jsx-element-tag-dwim)
-         ("C-c j o" . jtsx-jump-jsx-opening-tag)
-         ("C-c j c" . jtsx-jump-jsx-closing-tag)
-         ("C-c j r" . jtsx-rename-jsx-element)
-         ("C-c <down>" . jtsx-move-jsx-element-tag-forward)
-         ("C-c <up>" . jtsx-move-jsx-element-tag-backward)
-         ("C-c C-<down>" . jtsx-move-jsx-element-forward)
-         ("C-c C-<up>" . jtsx-move-jsx-element-backward)
-         ("C-c C-S-<down>" . jtsx-move-jsx-element-step-in-forward)
-         ("C-c C-S-<up>" . jtsx-move-jsx-element-step-in-backward)
-         ("C-c j w" . jtsx-wrap-in-jsx-element)
-         ("C-c j u" . jtsx-unwrap-jsx)
-         ("C-c j d" . jtsx-delete-jsx-node)
-         ("C-c j t" . jtsx-toggle-jsx-attributes-orientation)
-         ("C-c j h" . jtsx-rearrange-jsx-attributes-horizontally)
-         ("C-c j v" . jtsx-rearrange-jsx-attributes-vertically))
+  :bind ( :map jtsx-tsx-mode-map
+          ("C-c C-j" . jtsx-jump-jsx-element-tag-dwim)
+          ("C-c j o" . jtsx-jump-jsx-opening-tag)
+          ("C-c j c" . jtsx-jump-jsx-closing-tag)
+          ("C-c j r" . jtsx-rename-jsx-element)
+          ("C-c <down>" . jtsx-move-jsx-element-tag-forward)
+          ("C-c <up>" . jtsx-move-jsx-element-tag-backward)
+          ("C-c C-<down>" . jtsx-move-jsx-element-forward)
+          ("C-c C-<up>" . jtsx-move-jsx-element-backward)
+          ("C-c C-S-<down>" . jtsx-move-jsx-element-step-in-forward)
+          ("C-c C-S-<up>" . jtsx-move-jsx-element-step-in-backward)
+          ("C-c j w" . jtsx-wrap-in-jsx-element)
+          ("C-c j u" . jtsx-unwrap-jsx)
+          ("C-c j d" . jtsx-delete-jsx-node)
+          ("C-c j t" . jtsx-toggle-jsx-attributes-orientation)
+          ("C-c j h" . jtsx-rearrange-jsx-attributes-horizontally)
+          ("C-c j v" . jtsx-rearrange-jsx-attributes-vertically))
   :custom
   (jtsx-enable-jsx-element-tags-auto-sync t))
