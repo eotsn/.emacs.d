@@ -152,6 +152,14 @@ of the line."
   :ensure t
   :after magit)
 
+(use-package format-all
+  :commands format-all-mode
+  :hook ((prog-mode . format-all-mode)
+	 (format-all-mode . format-all-ensure-formatter))
+  :config
+  (setq-default format-all-formatters
+		'(("Lua" (stylua "-s")))))
+
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
