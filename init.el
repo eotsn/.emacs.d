@@ -89,6 +89,7 @@ of the line."
  ("C-c o" . customize-option)
  ("C-<return>" . other-window)
  ("C-c ;" . comment-dwim)
+ ("C-x C-d" . duplicate-line)
  ("C-'" . jump-to-register)
  ("M-'" . point-to-register)
  ("M-o" . my/newline-below-and-indent)
