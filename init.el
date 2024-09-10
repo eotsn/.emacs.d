@@ -161,6 +161,10 @@ of the line."
   (setq-default format-all-formatters
 		'(("Lua" (stylua "-s")))))
 
+(use-package git-link
+  :ensure t
+  :bind ("C-c g l" . git-link))
+
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
