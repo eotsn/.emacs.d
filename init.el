@@ -51,7 +51,8 @@
  '(recentf-mode t)
  '(save-place-mode t)
  '(savehist-mode t)
- '(tab-always-indent 'complete))
+ '(tab-always-indent 'complete)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (defun my/newline-above-and-indent ()
   "Insert a newline above the current line and move point to the beginning
