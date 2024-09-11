@@ -1,8 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(setq custom-file (make-temp-file "emacs-custom-"))
 
 (require 'package)
 (add-to-list 'package-archives
