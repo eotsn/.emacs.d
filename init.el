@@ -208,7 +208,9 @@ of the line."
   (global-lsp-bridge-mode))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :custom
+  (magit-diff-refine-hunk t))
 
 (use-package marginalia
   :ensure t
