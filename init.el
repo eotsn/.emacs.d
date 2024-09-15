@@ -176,8 +176,6 @@
   :custom
   (corfu-popupinfo-delay '(0.5 . 0.2)))
 
-(use-package diminish :ensure t :defer t)
-
 (use-package eglot
   :hook ((go-ts-mode tsx-ts-mode) . eglot-ensure)
   :bind ( :map eglot-mode-map
@@ -272,6 +270,13 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)))
 
+(use-package minions
+  :ensure t
+  :custom
+  (minions-prominent-modes '(flymake-mode))
+  :config
+  (minions-mode))
+
 (use-package multiple-cursors
   :ensure t
   :bind (("<C-m> $" . mc/edit-ends-of-lines)
@@ -302,7 +307,6 @@
   (org-startup-indented t))
 
 (use-package pragmatapro-lig
-  :diminish
   :hook (prog-mode text-mode))
 
 (use-package rainbow-mode
@@ -338,7 +342,6 @@
 
 (use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode
   :bind (("C-c y f" . yas-visit-snippet-file)
          ("C-c y i" . yas-insert-snippet)
          ("C-c y n" . yas-new-snippet)
