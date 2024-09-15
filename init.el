@@ -70,8 +70,7 @@
  '(read-extended-command-predicate 'command-completion-default-include-p)
  '(recentf-mode t)
  '(save-place-mode t)
- '(savehist-mode t)
- '(tab-always-indent 'complete))
+ '(savehist-mode t))
 
 ;; Enable some useful commands which are disabled by default
 (dolist (cmd '(downcase-region
@@ -81,6 +80,9 @@
 
 ;; Make C-m discernible from RET
 (define-key input-decode-map [?\C-m] [C-m])
+
+;; Make C-i discernible from TAB
+(define-key input-decode-map [?\C-i] [C-i])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -178,7 +180,48 @@
   :config
   (advice-add #'register-preview :override #'consult-register-window))
 
+(use-package corfu
+  :ensure t
+  :bind ("<C-i>" . completion-at-point)
+  :custom
+  (corfu-quit-at-boundary nil)
+  (tab-always-indent 'complete)
+  :init
+  (global-corfu-mode))
+
+(use-package corfu-popupinfo
+  :after corfu
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :bind ( :map corfu-map
+          ("M-n" . corfu-popupinfo-scroll-up)
+          ("M-p" . corfu-popupinfo-scroll-down))
+  :custom
+  (corfu-popupinfo-delay '(0.5 . 0.2)))
+
 (use-package diminish :ensure t :defer t)
+
+(use-package eglot
+  :hook ((go-ts-mode tsx-ts-mode) . eglot-ensure)
+  :bind ( :map eglot-mode-map
+          ("M-n" . flymake-goto-next-error)
+          ("M-p" . flymake-goto-prev-error)
+          ("C-c C-d" . eldoc-box-help-at-point))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-config '(:size 0))
+  (eglot-extend-to-xref t)
+  (eglot-sync-connect nil)
+  :config
+  (setq-default eglot-workspace-configuration
+                '((:gopls . (:usePlaceholders t)))))
+
+(use-package eglot-booster
+  :after eglot
+  :config
+  (eglot-booster-mode))
+
+(use-package eldoc-box
+  :ensure t)
 
 (use-package embark
   :ensure t
@@ -235,32 +278,6 @@
   :bind ( :map my-toggle-map
           ("k" . keycast-mode-line-mode)
           ("h" . keycast-header-line-mode)))
-
-(use-package lsp-bridge
-  :demand t
-  :load-path "site-lisp/lsp-bridge"
-  :bind ( :map lsp-bridge-mode-map
-          ("M-n" . lsp-bridge-diagnostic-jump-next)
-          ("M-p" . lsp-bridge-diagnostic-jump-prev)
-          ("s-l G d" . lsp-bridge-peek)
-          ("s-l a" . lsp-bridge-code-action)
-          ("s-l e" . lsp-bridge-diagnostic-list)
-          ("s-l g d" . lsp-bridge-find-def)
-          ("s-l g h" . lsp-bridge-incoming-call-hierarchy)
-          ("s-l g i" . lsp-bridge-find-impl)
-          ("s-l g r" . lsp-bridge-find-references)
-          ("s-l g t" . lsp-bridge-find-type-def)
-          ("s-l h" . lsp-bridge-popup-documentation)
-          ("s-l r" . lsp-bridge-rename))
-  :custom
-  (acm-enable-icon nil)
-  (lsp-bridge-enable-hover-diagnostic t)
-  :config
-  (add-to-list 'native-comp-jit-compilation-deny-list
-               '("lsp-bridge"))
-  ;; Free the RET key for less intrusive behavior
-  (keymap-unset acm-mode-map "RET")
-  (global-lsp-bridge-mode))
 
 (use-package magit
   :ensure t
