@@ -11,7 +11,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; GUI
+;;; Theme and GUI customization
 ;;
 
 (custom-set-variables
@@ -23,11 +23,6 @@
 (custom-set-faces
  '(default ((t (:family "PragmataPro Liga" :height 190)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;; Theme customization
-;;
-
 (require-theme 'modus-themes)
 
 (custom-set-variables
@@ -35,23 +30,6 @@
  '(modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)))
 
 (bind-key "<f5>" #'modus-themes-toggle)
-
-(defun my/modus-themes-custom-faces (&rest _)
-  (modus-themes-with-colors
-    (custom-set-faces
-     ;; lsp-bridge
-     `(acm-frame-border-face ((,c :background ,bg-active)))
-     `(acm-frame-default-face ((,c :background ,bg-dim)))
-     `(acm-frame-select-face ((,c :inherit bold :background ,bg-completion)))
-     `(lsp-bridge-alive-mode-line ((,c :inherit italic :weight normal)))
-     `(lsp-bridge-diagnostics-error-face ((,c :underline (:style wave :color ,underline-err))))
-     `(lsp-bridge-diagnostics-hint-face ((,c :underline (:style wave :color ,underline-note))))
-     `(lsp-bridge-diagnostics-info-face ((,c :underline (:style wave :color ,underline-note))))
-     `(lsp-bridge-diagnostics-warning-face ((,c :underline (:style wave :color ,underline-warning))))
-     `(lsp-bridge-kill-process ((,c :inherit bold :foreground ,err))))))
-
-;; Ensure that faces are updated when switching between themes
-(add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
 
 (modus-themes-load-theme 'modus-operandi-tinted)
 
