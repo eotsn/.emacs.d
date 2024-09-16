@@ -189,7 +189,8 @@
   (eglot-sync-connect nil)
   :config
   (setq-default eglot-workspace-configuration
-                '((:gopls . (:usePlaceholders t)))))
+                '((:completions . (:completeFunctionCalls t))
+                  (:gopls . (:usePlaceholders t)))))
 
 (use-package eglot-booster
   :after eglot
