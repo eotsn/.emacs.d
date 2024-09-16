@@ -224,7 +224,7 @@
   :after magit)
 
 (use-package format-all
-  :commands format-all-mode
+  :ensure t
   :hook (prog-mode . format-all-mode)
   :config
   (add-hook 'format-all-mode-hook #'format-all-ensure-formatter)
