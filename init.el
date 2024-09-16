@@ -294,7 +294,8 @@
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides '((eglot-capf (styles orderless eglot--dumb-flex))
+                                   (file (styles basic partial-completion)))))
 
 (use-package org-mode
   :bind (("C-c a" . org-agenda)
