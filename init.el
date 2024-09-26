@@ -177,7 +177,7 @@
   (corfu-popupinfo-delay '(0.5 . 0.2)))
 
 (use-package eglot
-  :hook ((go-ts-mode tsx-ts-mode) . eglot-ensure)
+  :hook ((go-ts-mode jtsx-tsx-mode) . eglot-ensure)
   :bind ( :map eglot-mode-map
           ("M-n" . flymake-goto-next-error)
           ("M-p" . flymake-goto-prev-error)
@@ -188,6 +188,8 @@
   (eglot-extend-to-xref t)
   (eglot-sync-connect nil)
   :config
+  (add-to-list 'eglot-server-programs
+               '(jtsx-tsx-mode "typescript-language-server" "--stdio"))
   (setq-default eglot-workspace-configuration
                 '((:completions . (:completeFunctionCalls t))
                   (:gopls . (:usePlaceholders t)))))
@@ -249,6 +251,18 @@
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages))
   :hook ((org-mode markdown-mode) . jinx-mode))
+
+(use-package jtsx
+  :ensure t
+  :mode (("\\.jsx?\\'" . jtsx-jsx-mode)
+         ("\\.tsx\\'" . jtsx-tsx-mode)
+         ("\\.ts\\'" . jtsx-typescript-mode))
+  :hook ((jtsx-jsx-mode . hs-minor-mode)
+         (jtsx-tsx-mode . hs-minor-mode)
+         (jtsx-typescript-mode . hs-minor-mode))
+  :custom
+  (jtsx-enable-jsx-electric-closing-element t)
+  (jtsx-enable-jsx-element-tags-auto-sync t))
 
 (use-package keycast
   :ensure t
@@ -323,7 +337,7 @@
   :config
   (setq treesit-auto-langs
         (cl-set-difference treesit-auto-langs
-                           '(janet latex markdown)))
+                           '(tsx janet latex markdown)))
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
