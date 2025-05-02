@@ -1,12 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 
 (use-package jtsx
-  :mode (("\\.jsx?\\'" . jtsx-jsx-mode)
-         ("\\.tsx\\'" . jtsx-tsx-mode)
-         ("\\.ts\\'" . jtsx-typescript-mode))
-  :hook ((jtsx-jsx-mode . hs-minor-mode)
-         (jtsx-tsx-mode . hs-minor-mode)
-         (jtsx-typescript-mode . hs-minor-mode))
+  :mode (("\\.[mc]?jsx?\\'" . jtsx-jsx-mode)
+         ("\\.[mc]?ts\\'" . jtsx-typescript-mode)
+         ("\\.tsx\\'" . jtsx-tsx-mode))
   :custom
   (jtsx-enable-jsx-element-tags-auto-sync t)
   :config
@@ -27,4 +24,15 @@
       (define-key mode-map (kbd (car binding)) (cdr binding))))
 
   (add-hook 'jtsx-jsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-jsx-mode-map)))
-  (add-hook 'jtsx-tsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-tsx-mode-map))))
+  (add-hook 'jtsx-tsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-tsx-mode-map)))
+
+  (dolist (hook '(jtsx-jsx-mode-hook
+                  jtsx-tsx-mode-hook
+                  jtsx-typescript-mode-hook))
+    (add-hook hook #'hs-minor-mode)
+    (add-hook hook #'lsp-deferred))
+
+  (dolist (mode-id '((jtsx-jsx-mode . "javascriptreact")
+                     (jtsx-tsx-mode . "typescriptreact")
+                     (jtsx-typescript-mode . "typescript")))
+    (add-to-list 'lsp-language-id-configuration mode-id)))
