@@ -41,6 +41,10 @@
   :config
   (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
+  (defun my/lsp-help-mode-face-remap ()
+    (face-remap-add-relative 'markdown-code-face 'default))
+  (add-hook 'lsp-help-mode-hook #'my/lsp-help-mode-face-remap)
+
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(orderless))
