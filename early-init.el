@@ -7,9 +7,9 @@
       gc-cons-percentage 0.5)
 
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq gc-cons-threshold (* 128 1024 1024) ;; 128 MB
-		  gc-cons-percentage 0.1)))
+          (lambda ()
+            (setq gc-cons-threshold (* 128 1024 1024) ;; 128 MB
+                  gc-cons-percentage 0.1)))
 
 (setq package-enable-at-startup nil) ;; we use Elpaca!
 
