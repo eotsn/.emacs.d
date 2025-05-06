@@ -299,6 +299,8 @@ current line with the correct indentation."
          ("\\.[mc]?ts\\'" . jtsx-typescript-mode)
          ("\\.tsx\\'" . jtsx-tsx-mode))
   :custom
+  (jtsx-enable-electric-open-newline-between-jsx-element-tags t)
+  (jtsx-enable-jsx-electric-closing-element t)
   (jtsx-enable-jsx-element-tags-auto-sync t)
   :config
   (defvar jtsx-command-bindings
@@ -319,6 +321,10 @@ current line with the correct indentation."
 
   (add-hook 'jtsx-jsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-jsx-mode-map)))
   (add-hook 'jtsx-tsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-tsx-mode-map)))
+
+  (add-to-list 'lsp--formatting-indent-alist '(jtsx-jsx-mode . js-indent-level))
+  (add-to-list 'lsp--formatting-indent-alist '(jtsx-tsx-mode . typescript-ts-mode-indent-offset))
+  (add-to-list 'lsp--formatting-indent-alist '(jtsx-typescript-mode . typescript-ts-mode-indent-offset))
 
   (dolist (hook '(jtsx-jsx-mode-hook
                   jtsx-tsx-mode-hook
