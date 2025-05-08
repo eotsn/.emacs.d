@@ -496,6 +496,8 @@ current line with the correct indentation."
        `(lsp-ui-doc-background ((,c :background ,bg-dim))))))
   (add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
 
+  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+
   (when IS-MAC (modus-themes-load-theme 'modus-operandi))
   (when IS-LINUX (modus-themes-load-theme 'modus-vivendi))
 

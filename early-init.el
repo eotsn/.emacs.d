@@ -16,6 +16,7 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
+(push '(alpha-background . 95) default-frame-alist)
 
 (defconst IS-MAC (eq system-type 'darwin))
 (defconst IS-LINUX (eq system-type 'gnu/linux))
