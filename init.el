@@ -228,6 +228,7 @@ current line with the correct indentation."
   :bind ("C-c C-l" . lsp-mode)
   :custom
   (lsp-completion-provider :none) ;; we use Corfu!
+  (lsp-headerline-breadcrumb-enable nil)
   (lsp-keymap-prefix "C-c l")
   (lsp-modeline-code-action-fallback-icon "")
   (lsp-progress-prefix "")
