@@ -23,7 +23,7 @@
 
 (if IS-MAC
     (push '(font . "PragmataPro-18") default-frame-alist)
-  (push '(font . "PragmataPro-13") default-frame-alist))
+  (push '(font . "PragmataPro-16") default-frame-alist))
 
 ;; Use plists for deserialization with `lsp-mode'.
 (setenv "LSP_USE_PLISTS" "true")
