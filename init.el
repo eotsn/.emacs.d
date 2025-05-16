@@ -253,6 +253,13 @@ current line with the correct indentation."
   (bind-key [remap xref-find-definitions] #'lsp-ui-peek-find-definitions lsp-ui-mode-map)
   (bind-key [remap xref-find-references] #'lsp-ui-peek-find-references lsp-ui-mode-map))
 
+(use-package lsp-tailwindcss :ensure (:host github :repo "merrickluo/lsp-tailwindcss")
+  :after lsp-mode
+  :custom
+  (lsp-tailwindcss-add-on-mode t)
+  (lsp-tailwindcss-server-version "0.14.19")
+  (lsp-tailwindcss-skip-config-check t))
+
 (use-package flycheck
   :bind (("M-n" . flycheck-next-error)
          ("M-p" . flycheck-previous-error))
