@@ -394,10 +394,22 @@ current line with the correct indentation."
 (use-package corfu
   :custom
   (completion-ignore-case t)
+  (corfu-auto t)
+  (corfu-auto-delay 0)
+  (corfu-auto-prefix 1)
   (tab-always-indent 'complete)
   :config
-  (bind-key "SPC" #'corfu-insert-separator corfu-map)
+  (bind-key "C-SPC" #'corfu-insert-separator corfu-map)
+  (add-hook 'eshell-mode-hook (lambda ()
+                                (setq-local corfu-auto nil)))
+  ;; Free the RET key for less intrusive behavior.
+  (keymap-unset corfu-map "RET")
   (global-corfu-mode 1))
+
+(use-package corfu-echo :ensure nil
+  :hook (corfu-mode . corfu-echo-mode)
+  :custom
+  (corfu-echo-delay '(0.5 . 0.2)))
 
 (use-package corfu-popupinfo :ensure nil
   :hook (corfu-mode . corfu-popupinfo-mode)
