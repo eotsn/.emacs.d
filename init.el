@@ -524,7 +524,6 @@ current line with the correct indentation."
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-
 (use-package vertico
   :custom
   (vertico-cycle t)
