@@ -267,9 +267,9 @@ current line with the correct indentation."
 (use-package magit
   :hook (magit-mode . hl-line-mode)
   :custom
-  (magit-define-global-key-bindings 'recommended)
   (magit-diff-refine-hunk 'all)
   :config
+  (transient-bind-q-to-quit)
   (defun my/magit-disable-whitespace-mode ()
     "Disable `whitespace-mode' in Magit buffers."
     (whitespace-mode -1))
