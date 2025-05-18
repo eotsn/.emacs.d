@@ -262,7 +262,7 @@ current line with the correct indentation."
 
 ;; Ensure we get the latest version instead of relying on transient
 ;; dependencies to avoid issues with loading `magit'.
-(use-package transient)
+(use-package transient :defer t)
 
 (use-package magit
   :hook (magit-mode . hl-line-mode)
