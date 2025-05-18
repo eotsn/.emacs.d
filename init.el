@@ -468,7 +468,7 @@ current line with the correct indentation."
   (defvar gptel--copilot
     (gptel-make-gh-copilot "Copilot"))
 
-  (setq-default gptel-model 'claude-3.5-sonnet
+  (setq-default gptel-model 'gpt-4.1
                 gptel-backend gptel--copilot))
 
 (use-package gptel-quick :ensure (:host github :repo "karthink/gptel-quick")
