@@ -248,7 +248,10 @@ current line with the correct indentation."
 
 (use-package lsp-ui
   :custom
-  (lsp-ui-doc-position 'at-point))
+  (lsp-ui-doc-position 'at-point)
+  :config
+  (bind-key [remap xref-find-definitions] #'lsp-ui-peek-find-definitions lsp-ui-mode-map)
+  (bind-key [remap xref-find-references] #'lsp-ui-peek-find-references lsp-ui-mode-map))
 
 (use-package flycheck
   :bind (("M-n" . flycheck-next-error)
@@ -507,7 +510,15 @@ current line with the correct indentation."
     (modus-themes-with-colors
       (setq lsp-ui-doc-border border)
       (custom-set-faces
-       `(lsp-ui-doc-background ((,c :background ,bg-dim))))))
+       `(lsp-ui-doc-background ((,c :background ,bg-dim)))
+       `(lsp-ui-peek-filename ((t :inherit (xref-file-header italic))))
+       `(lsp-ui-peek-footer ((,c :background ,bg-active)))
+       `(lsp-ui-peek-header ((,c :background ,bg-active :foreground ,fg-main)))
+       `(lsp-ui-peek-highlight ((t :inherit xref-match)))
+       `(lsp-ui-peek-line-number ((t :inherit xref-line-number)))
+       `(lsp-ui-peek-list ((,c :background ,bg-dim)))
+       `(lsp-ui-peek-peek ((,c :background ,bg-dim)))
+       `(lsp-ui-peek-selection ((,c :inherit modus-themes-completion-selected))))))
   (add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
 
   (when IS-MAC (modus-themes-load-theme 'modus-operandi-tinted))
