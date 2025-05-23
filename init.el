@@ -571,4 +571,9 @@ current line with the correct indentation."
   (wgrep-auto-save-buffer t))
 
 (use-package yasnippet
-  :hook (prog-mode . yas-minor-mode-on))
+  :hook (prog-mode . yas-minor-mode-on)
+  :custom
+  (yas-triggers-in-field t)
+  (yas-wrap-around-region t)
+  :config
+  (yas-reload-all))

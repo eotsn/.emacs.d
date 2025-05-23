@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ArrowFunction
+# key: afn
+# --
+
+(${1:params}) => {
+  ${0}
+}
