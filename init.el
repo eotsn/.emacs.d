@@ -80,6 +80,8 @@ current line with the correct indentation."
 (bind-keys* ("<f6>" . whitespace-mode)
             ("<f7>" . display-line-numbers-mode)
             ("<f8>" . hl-line-mode)
+            ("C-<" . hs-hide-block)
+            ("C->" . hs-show-block)
             ("C-<return>" . my/start-new-line)
             ("C-x C-d" . duplicate-line) ;; orig. `list-directory'
             ("C-c z" . delete-trailing-whitespace))
