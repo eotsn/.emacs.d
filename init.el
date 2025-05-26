@@ -367,6 +367,9 @@ current line with the correct indentation."
 (use-package aidermacs
   :bind ("C-c a" . aidermacs-transient-menu)
   :config
+  (add-hook 'aidermacs-comint-mode-hook (lambda ()
+                                          (display-line-numbers-mode -1)))
+
   (dolist (lang '(("ts" . "typescript-ts")
                   ("tsx" . "tsx-ts")
                   ("typescript" . "typescript-ts")))
@@ -483,6 +486,9 @@ current line with the correct indentation."
   :custom
   (gptel-default-mode 'org-mode)
   :config
+  (add-hook 'gptel-mode-hook (lambda ()
+                               (display-line-numbers-mode -1)))
+
   (require 'gptel-gh)
 
   (defvar gptel--copilot
