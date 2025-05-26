@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
-# name: ArrowFunction
-# key: afn
+# name: arrow function with body
+# key: f
 # --
 
 (${1:params}) => {
-  ${0}
+  ${2}
 }
