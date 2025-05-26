@@ -364,6 +364,14 @@ current line with the correct indentation."
 ;; Packages - Everything else which isn't categorized
 ;; ============================================================================
 
+(use-package aidermacs
+  :bind ("C-c a" . aidermacs-transient-menu)
+  :config
+  (dolist (lang '(("ts" . "typescript-ts")
+                  ("tsx" . "tsx-ts")
+                  ("typescript" . "typescript-ts")))
+    (add-to-list 'aidermacs-language-name-map lang)))
+
 (use-package apheleia
   :custom
   (apheleia-formatters-respect-indent-level nil)
