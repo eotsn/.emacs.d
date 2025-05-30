@@ -101,6 +101,7 @@ current line with the correct indentation."
 
   ;; Show line numbers in all buffers.
   (global-display-line-numbers-mode 1)
+  (display-line-numbers-type 'relative)
 
   ;; Show the current file's full path in the title.
   (frame-title-format
@@ -440,6 +441,18 @@ current line with the correct indentation."
   (corfu-popupinfo-delay '(nil . 0.2)) ;; hide the popup initially
   (corfu-popupinfo-max-height 20))
 
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode))
+  :config
+  (let* ((width 3)
+         (bitmap (vector (1- (expt 2 width)))))
+    (define-fringe-bitmap 'my/diff-hl-bitmap bitmap 1 width '(top t)))
+  (setq diff-hl-fringe-bmp-function (lambda (type pos) 'my/diff-hl-bitmap))
+
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  (diff-hl-flydiff-mode t))
+
 (use-package eat
   :hook (eshell-mode . eat-eshell-mode))
 
@@ -533,6 +546,10 @@ current line with the correct indentation."
     (modus-themes-with-colors
       (setq lsp-ui-doc-border border)
       (custom-set-faces
+       `(diff-hl-change ((,c :foreground ,bg-changed-fringe :background unspecified)))
+       `(diff-hl-delete ((,c :foreground ,bg-removed-fringe :background unspecified)))
+       `(diff-hl-insert ((,c :foreground ,bg-added-fringe :background unspecified)))
+
        `(lsp-ui-doc-background ((,c :background ,bg-dim)))
        `(lsp-ui-peek-filename ((t :inherit (xref-file-header italic))))
        `(lsp-ui-peek-footer ((,c :background ,bg-active)))
@@ -543,6 +560,11 @@ current line with the correct indentation."
        `(lsp-ui-peek-peek ((,c :background ,bg-dim)))
        `(lsp-ui-peek-selection ((,c :inherit modus-themes-completion-selected))))))
   (add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
+
+  (setq modus-themes-common-palette-overrides
+        `((fg-line-number-active fg-alt)
+          (fg-line-number-inactive bg-inactive)
+          ,@modus-themes-preset-overrides-faint))
 
   (when IS-MAC (modus-themes-load-theme 'modus-operandi-tinted))
   (when IS-LINUX (modus-themes-load-theme 'modus-vivendi-tinted))
