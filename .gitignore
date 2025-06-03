@@ -2,7 +2,7 @@
 
 !.gitignore
 
-!early-init.el
-!init.el
+!emacs-tangle
+!init.org
 !lisp/
 !snippets/
