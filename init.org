@@ -21,11 +21,6 @@
 
 #+begin_src emacs-lisp
   ;;; early-init.el -*- lexical-binding: t; -*-
-
-  (setq package-enable-at-startup nil) ;; we use Elpaca!
-
-  (defconst IS-MAC   (eq system-type 'darwin))
-  (defconst IS-LINUX (eq system-type 'gnu/linux))
 #+end_src
 
 *** Garbage collection
@@ -47,109 +42,11 @@ ensure normal operation.
 *** UI
 
 #+begin_src emacs-lisp
+  (push '(alpha-background . 95) default-frame-alist)
+  (push '(font . "PragmataPro-16") default-frame-alist)
   (push '(menu-bar-lines . 0) default-frame-alist)
   (push '(tool-bar-lines . 0) default-frame-alist)
   (push '(vertical-scroll-bars) default-frame-alist)
-  (push '(alpha-background . 95) default-frame-alist)
-
-  (if IS-MAC
-      (push '(font . "PragmataPro-18") default-frame-alist)
-    (push '(font . "PragmataPro-16") default-frame-alist))
-#+end_src
-
-*** lsp-mode
-
-Use property lists instead of hash tables for deserialization to
-increase [[https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization][performance]] when communicating with language servers.
-
-#+begin_src emacs-lisp
-  (setenv "LSP_USE_PLISTS" "true")
-#+end_src
-
-** Elpaca
-
-Make sure we download and install [[https://github.com/progfolio/elpaca][Elpaca]] if it's not available.
-
-#+begin_src emacs-lisp
-  (defvar elpaca-installer-version 0.11)
-  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-                                :ref nil :depth 1 :inherit ignore
-                                :files (:defaults "elpaca-test.el" (:exclude "extensions"))
-                                :build (:not elpaca--activate-package)))
-  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-         (build (expand-file-name "elpaca/" elpaca-builds-directory))
-         (order (cdr elpaca-order))
-         (default-directory repo))
-    (add-to-list 'load-path (if (file-exists-p build) build repo))
-    (unless (file-exists-p repo)
-      (make-directory repo t)
-      (when (<= emacs-major-version 28) (require 'subr-x))
-      (condition-case-unless-debug err
-          (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                    ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
-                                                    ,@(when-let* ((depth (plist-get order :depth)))
-                                                        (list (format "--depth=%d" depth) "--no-single-branch"))
-                                                    ,(plist-get order :repo) ,repo))))
-                    ((zerop (call-process "git" nil buffer t "checkout"
-                                          (or (plist-get order :ref) "--"))))
-                    (emacs (concat invocation-directory invocation-name))
-                    ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-                                          "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-                    ((require 'elpaca))
-                    ((elpaca-generate-autoloads "elpaca" repo)))
-              (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-            (error "%s" (with-current-buffer buffer (buffer-string))))
-        ((error) (warn "%s" err) (delete-directory repo 'recursive))))
-    (unless (require 'elpaca-autoloads nil t)
-      (require 'elpaca)
-      (elpaca-generate-autoloads "elpaca" repo)
-      (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
-  (add-hook 'after-init-hook #'elpaca-process-queues)
-  (elpaca `(,@elpaca-order))
-#+end_src
-
-** use-package
-
-#+begin_src emacs-lisp
-  (defmacro use-feature (name &rest args)
-    "Like `use-package' but accounting for asynchronous installation."
-    (declare (indent defun))
-    `(use-package ,name
-       :ensure nil
-       ,@args))
-#+end_src
-
-#+begin_src emacs-lisp
-  (elpaca elpaca-use-package
-    (elpaca-use-package-mode)
-    (setq use-package-always-ensure t))
-#+end_src
-
-* Tree-sitter
-
-#+begin_src emacs-lisp
-  (setq treesit-language-source-alist
-        '((css "https://github.com/tree-sitter/tree-sitter-css")
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-          (html "https://github.com/tree-sitter/tree-sitter-html")
-          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")))
-
-  (defun my/treesit-install-language-grammars ()
-    "Downloads and installs all available language grammars from
-  `treesit-language-source-alist'."
-    (interactive)
-    (dolist (lang treesit-language-source-alist)
-      (unless (treesit-language-available-p (car lang))
-        (treesit-install-language-grammar (car lang)))))
-
-  (setq major-mode-remap-alist
-        '((css-mode . css-ts-mode)
-          (js-mode . js-ts-mode)
-          (html-mode . html-ts-mode)))
 #+end_src
 
 * Packages
@@ -248,14 +145,14 @@ completion backends used by =completion-at-point= are so called
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-feature corfu-echo
+  (use-package corfu-echo
     :hook (corfu-mode . corfu-echo-mode)
     :custom
     (corfu-echo-delay '(0.5 . 0.2)))
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-feature corfu-popupinfo
+  (use-package corfu-popupinfo
     :hook (corfu-mode . corfu-popupinfo-mode)
     :custom
     (corfu-popupinfo-delay '(nil . 0.2)) ;; hide the popup initially
@@ -286,7 +183,7 @@ completion backends used by =completion-at-point= are so called
 ** dired
 
 #+begin_src emacs-lisp
-  (use-feature dired
+  (use-package dired
     :custom
     (dired-kill-when-opening-new-dired-buffer t)
     (dired-listing-switches "-alh")
@@ -312,7 +209,7 @@ completion backends used by =completion-at-point= are so called
 ** ediff
 
 #+begin_src emacs-lisp
-  (use-feature ediff
+  (use-package ediff
     :custom
     (ediff-diff-options "-w")
     (ediff-window-setup-function #'ediff-setup-windows-plain))
@@ -325,7 +222,7 @@ variables and advices that relate to core functionality that isn't
 considered a "package" unto itself.
 
 #+begin_src emacs-lisp
-  (use-feature emacs
+  (use-package emacs
     :demand t
     :bind* (("<f6>" . whitespace-mode)
             ("<f7>" . display-line-numbers-mode)
@@ -425,15 +322,6 @@ considered a "package" unto itself.
 
 #+begin_src emacs-lisp
   (use-package embark-consult)
-#+end_src
-
-** exec-path-from-shell
-
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :config
-    (when (memq window-system '(ns pgtk))
-      (exec-path-from-shell-initialize)))
 #+end_src
 
 ** expand-region
@@ -639,11 +527,10 @@ considered a "package" unto itself.
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+end_src
 
-** lsp-tailwindcc
+** lsp-tailwindcss
 
 #+begin_src emacs-lisp
   (use-package lsp-tailwindcss
-    :ensure (:host github :repo "merrickluo/lsp-tailwindcss")
     :after lsp-mode
     :custom
     (lsp-tailwindcss-add-on-mode t)
@@ -675,19 +562,7 @@ considered a "package" unto itself.
     (defun my/magit-disable-whitespace-mode ()
       "Disable `whitespace-mode' in Magit buffers."
       (whitespace-mode -1))
-    (add-hook 'magit-section-mode-hook #'my/magit-disable-whitespace-mode)
-
-    (when IS-MAC
-      ;; This is done for the sake of performance on macOS.
-      (setq magit-git-executable "/usr/bin/git")))
-#+end_src
-
-Get the latest version of =transient= from VCS instead of relying on
-transient dependencies to avoid issues with loading =magit=.
-
-#+begin_src emacs-lisp
-  (use-package transient
-    :defer t)
+    (add-hook 'magit-section-mode-hook #'my/magit-disable-whitespace-mode))
 #+end_src
 
 ** marginalia
@@ -738,8 +613,7 @@ transient dependencies to avoid issues with loading =magit=.
             (fg-line-number-inactive bg-inactive)
             ,@modus-themes-preset-overrides-faint))
 
-    (when IS-MAC (modus-themes-load-theme 'modus-operandi-tinted))
-    (when IS-LINUX (modus-themes-load-theme 'modus-vivendi-tinted))
+    (modus-themes-load-theme 'modus-vivendi-tinted)
 
     (bind-key "<f5>" #'modus-themes-toggle))
 #+end_src
@@ -794,7 +668,7 @@ transient dependencies to avoid issues with loading =magit=.
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-feature vertico-multiform
+  (use-package vertico-multiform
     :after vertico
     :custom
     (vertico-multiform-commands
