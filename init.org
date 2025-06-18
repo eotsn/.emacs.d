@@ -393,7 +393,7 @@ considered a "package" unto itself.
 #+begin_src emacs-lisp
   (use-package harpun
     :load-path "lisp/harpun"
-    :bind ("C-'" . harpun-set-register-or-swap)
+    :bind* ("C-'" . harpun-set-register-or-swap)
     :config
     (harpun-setup-default))
 #+end_src
