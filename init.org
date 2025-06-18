@@ -646,6 +646,13 @@ considered a "package" unto itself.
     (advice-add #'move-text-down :after 'indent-region-advice))
 #+end_src
 
+** nix-ts-mode
+
+#+begin_src emacs-lisp
+  (use-package nix-ts-mode
+    :mode "\\.nix\\'")
+#+end_src
+
 ** orderless
 
 #+begin_src emacs-lisp
