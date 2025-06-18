@@ -609,9 +609,17 @@ considered a "package" unto itself.
     (add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
 
     (setq modus-themes-common-palette-overrides
-          `((fg-line-number-active fg-alt)
+          `((bg-mode-line-active bg-inactive)
+            (bg-mode-line-inactive bg-dim)
+            (border-mode-line-active fg-dim)
+            (border-mode-line-inactive bg-active)
+
+            (fringe unspecified)
+
+            (fg-line-number-active fg-alt)
             (fg-line-number-inactive bg-inactive)
-            ,@modus-themes-preset-overrides-faint))
+            (bg-line-number-active unspecified)
+            (bg-line-number-inactive unspecified)))
 
     (modus-themes-load-theme 'modus-vivendi-tinted)
 
