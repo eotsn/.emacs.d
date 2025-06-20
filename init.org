@@ -410,6 +410,32 @@ considered a "package" unto itself.
            ([remap describe-symbol] . helpful-symbol)))
 #+end_src
 
+** indent-bars
+
+#+begin_src emacs-lisp
+  (use-package indent-bars
+    :hook (prog-mode . indent-bars-mode)
+    :custom
+    (indent-bars-color '(line-number :face-fg t :blend 1))
+    (indent-bars-color-by-depth nil)
+    (indent-bars-highlight-current-depth nil)
+    (indent-bars-no-descend-string nil)
+    (indent-bars-pattern ".")
+    (indent-bars-width-frac 0.2))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package indent-bars-jtsx
+    :no-require t
+    :after indent-bars
+    :preface
+    (defun my/jtsx-init-indent-bars ()
+      (setq indent-bars-spacing-override 2)
+      (indent-bars-mode 1))
+    :config
+    (add-hook 'jtsx-tsx-mode-hook #'my/jtsx-init-indent-bars))
+#+end_src
+
 ** jinx
 
 #+begin_src emacs-lisp
@@ -615,6 +641,9 @@ considered a "package" unto itself.
             (border-mode-line-inactive bg-active)
 
             (fringe unspecified)
+
+            (bg-region bg-inactive)
+            (fg-region unspecified)
 
             (fg-line-number-active fg-alt)
             (fg-line-number-inactive bg-inactive)
