@@ -691,6 +691,40 @@ considered a "package" unto itself.
     (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
+** perspective
+
+#+begin_src emacs-lisp
+  (use-package perspective
+    :custom
+    (persp-mode-prefix-key (kbd "C-z"))
+    :init
+    (persp-mode 1))
+
+  (use-package perspective-consult
+    :no-require t
+    :after (perspective consult)
+    :config
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    (add-to-list 'consult-buffer-sources persp-consult-source))
+#+end_src
+
+** project
+
+#+begin_src emacs-lisp
+  (use-package project
+    :preface
+    (defun my/project-switch-project-personal ()
+      (interactive)
+      (let* ((filtered (mapcar #'list (cl-remove-if
+                                       (lambda (p)
+                                         (string-prefix-p "~/work" p))
+                                       (project-known-project-roots))))
+             (project--list filtered))
+        (call-interactively #'project-switch-project)))
+    :config
+    (bind-key "C-x p p" #'my/project-switch-project-personal)
+    (bind-key "C-x p w" #'project-switch-project))
+#+end_src
 ** terraform-mode
 
 #+begin_src emacs-lisp
