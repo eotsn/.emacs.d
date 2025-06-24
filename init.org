@@ -413,11 +413,12 @@ considered a "package" unto itself.
   (use-package indent-bars
     :hook (prog-mode . indent-bars-mode)
     :custom
-    (indent-bars-color '(line-number :face-fg t :blend 1))
+    (indent-bars-color '(line-number :face-fg t :blend 0.6))
     (indent-bars-color-by-depth nil)
     (indent-bars-highlight-current-depth nil)
     (indent-bars-no-descend-string nil)
     (indent-bars-pattern ".")
+    (indent-bars-starting-column 0)
     (indent-bars-width-frac 0.2))
 #+end_src
 
