@@ -125,40 +125,6 @@ completion backends used by =completion-at-point= are so called
           xref-show-definitions-function #'consult-xref))
 #+end_src
 
-** corfu
-
-#+begin_src emacs-lisp
-  (use-package corfu
-    :custom
-    (completion-ignore-case t)
-    (corfu-auto t)
-    (corfu-auto-delay 0)
-    (corfu-auto-prefix 1)
-    (tab-always-indent 'complete)
-    :config
-    (bind-key "C-SPC" #'corfu-insert-separator corfu-map)
-    (add-hook 'eshell-mode-hook (lambda ()
-                                  (setq-local corfu-auto nil)))
-    ;; Free the RET key for less intrusive behavior.
-    (keymap-unset corfu-map "RET")
-    (global-corfu-mode 1))
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package corfu-echo
-    :hook (corfu-mode . corfu-echo-mode)
-    :custom
-    (corfu-echo-delay '(0.5 . 0.2)))
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package corfu-popupinfo
-    :hook (corfu-mode . corfu-popupinfo-mode)
-    :custom
-    (corfu-popupinfo-delay '(nil . 0.2)) ;; hide the popup initially
-    (corfu-popupinfo-max-height 20))
-#+end_src
-
 ** diff-hl
 
 #+begin_src emacs-lisp
@@ -331,16 +297,6 @@ considered a "package" unto itself.
     :bind* ("C-," . er/expand-region))
 #+end_src
 
-** flycheck
-
-#+begin_src emacs-lisp
-  (use-package flycheck
-    :bind (("M-n" . flycheck-next-error)
-           ("M-p" . flycheck-previous-error))
-    :config
-    (add-hook 'after-init-hook #'global-flycheck-mode))
-#+end_src
-
 ** forge
 
 #+begin_src emacs-lisp
@@ -476,103 +432,10 @@ considered a "package" unto itself.
     (add-hook 'jtsx-jsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-jsx-mode-map)))
     (add-hook 'jtsx-tsx-mode-hook (lambda () (my/jtsx-bind-keys-to-mode-map jtsx-tsx-mode-map)))
 
-    (add-to-list 'lsp--formatting-indent-alist '(jtsx-jsx-mode . js-indent-level))
-    (add-to-list 'lsp--formatting-indent-alist '(jtsx-tsx-mode . typescript-ts-mode-indent-offset))
-    (add-to-list 'lsp--formatting-indent-alist '(jtsx-typescript-mode . typescript-ts-mode-indent-offset))
-
     (dolist (hook '(jtsx-jsx-mode-hook
                     jtsx-tsx-mode-hook
                     jtsx-typescript-mode-hook))
-      (add-hook hook #'hs-minor-mode)
-      (add-hook hook #'lsp-deferred))
-
-    (dolist (mode-id '((jtsx-jsx-mode . "javascriptreact")
-                       (jtsx-tsx-mode . "typescriptreact")
-                       (jtsx-typescript-mode . "typescript")))
-      (add-to-list 'lsp-language-id-configuration mode-id)))
-#+end_src
-
-** lsp-mode
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :bind ("C-c C-l" . lsp-mode)
-    :custom
-    (lsp-completion-provider :none) ;; we use Corfu!
-    (lsp-headerline-breadcrumb-enable nil)
-    (lsp-keymap-prefix "C-c l")
-    (lsp-modeline-code-action-fallback-icon "")
-    (lsp-progress-prefix "")
-    :config
-    (setq read-process-output-max (* 1024 1024)) ;; 1 MB
-
-    (defun my/lsp-help-mode-face-remap ()
-      (face-remap-add-relative 'markdown-code-face 'default))
-    (add-hook 'lsp-help-mode-hook #'my/lsp-help-mode-face-remap)
-
-    (defun my/lsp-mode-setup-completion ()
-      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-            '(orderless))
-      ;; The Capf-Buster ensures that you always get a fresh set of candidates!
-      (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
-    (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion))
-#+end_src
-
-*** emacs-lsp-booster
-
-#+begin_src emacs-lisp
-  (defun lsp-booster--advice-json-parse (old-fn &rest args)
-    "Try to parse bytecode instead of json."
-    (or
-     (when (equal (following-char) ?#)
-       (let ((bytecode (read (current-buffer))))
-         (when (byte-code-function-p bytecode)
-           (funcall bytecode))))
-     (apply old-fn args)))
-  (advice-add (if (progn (require 'json)
-                         (fboundp 'json-parse-buffer))
-                  'json-parse-buffer
-                'json-read)
-              :around
-              #'lsp-booster--advice-json-parse)
-
-  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-    "Prepend emacs-lsp-booster command to lsp CMD."
-    (let ((orig-result (funcall old-fn cmd test?)))
-      (if (and (not test?)                             ;; for check lsp-server-present?
-               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-               lsp-use-plists
-               (not (functionp 'json-rpc-connection))  ;; native json-rpc
-               (executable-find "emacs-lsp-booster"))
-          (progn
-            (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-              (setcar orig-result command-from-exec-path))
-            (message "Using emacs-lsp-booster for %s!" orig-result)
-            (cons "emacs-lsp-booster" orig-result))
-        orig-result)))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-#+end_src
-
-** lsp-tailwindcss
-
-#+begin_src emacs-lisp
-  (use-package lsp-tailwindcss
-    :after lsp-mode
-    :custom
-    (lsp-tailwindcss-add-on-mode t)
-    (lsp-tailwindcss-server-version "0.14.19")
-    (lsp-tailwindcss-skip-config-check t))
-#+end_src
-
-** lsp-ui
-
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :custom
-    (lsp-ui-doc-position 'at-point)
-    :config
-    (bind-key [remap xref-find-definitions] #'lsp-ui-peek-find-definitions lsp-ui-mode-map)
-    (bind-key [remap xref-find-references] #'lsp-ui-peek-find-references lsp-ui-mode-map))
+      (add-hook hook #'hs-minor-mode)))
 #+end_src
 
 ** magit
@@ -625,21 +488,10 @@ considered a "package" unto itself.
     :config
     (defun my/modus-themes-custom-faces (&rest _)
       (modus-themes-with-colors
-        (setq lsp-ui-doc-border border)
         (custom-set-faces
          `(diff-hl-change ((,c :foreground ,bg-changed-fringe :background unspecified)))
          `(diff-hl-delete ((,c :foreground ,bg-removed-fringe :background unspecified)))
-         `(diff-hl-insert ((,c :foreground ,bg-added-fringe :background unspecified)))
-
-         `(lsp-ui-doc-background ((,c :background ,bg-dim)))
-         `(lsp-ui-peek-filename ((t :inherit (xref-file-header italic))))
-         `(lsp-ui-peek-footer ((,c :background ,bg-active)))
-         `(lsp-ui-peek-header ((,c :background ,bg-active :foreground ,fg-main)))
-         `(lsp-ui-peek-highlight ((t :inherit xref-match)))
-         `(lsp-ui-peek-line-number ((t :inherit xref-line-number)))
-         `(lsp-ui-peek-list ((,c :background ,bg-dim)))
-         `(lsp-ui-peek-peek ((,c :background ,bg-dim)))
-         `(lsp-ui-peek-selection ((,c :inherit modus-themes-completion-selected))))))
+         `(diff-hl-insert ((,c :foreground ,bg-added-fringe :background unspecified))))))
     (add-hook 'modus-themes-post-load-hook #'my/modus-themes-custom-faces)
 
     (setq modus-themes-common-palette-overrides
@@ -790,4 +642,22 @@ considered a "package" unto itself.
     (yas-wrap-around-region t)
     :config
     (yas-reload-all))
+#+end_src
+
+** lsp-mode
+
+#+begin_src emacs-lisp
+  (use-package lsp-bridge
+    :custom
+    (acm-backend-yas-match-by-trigger-keyword t)
+    (acm-enable-capf t)
+    (acm-enable-lsp-workspace-symbol t)
+    (acm-enable-quick-access t)
+    (lsp-bridge-enable-completion-in-minibuffer t)
+    (lsp-bridge-enable-completion-in-string t)
+    (lsp-bridge-enable-inlay-hint t)
+    (lsp-bridge-semantic-tokens t)
+    (lsp-bridge-signature-show-function 'lsp-bridge-signature-show-with-frame)
+    :config
+    (global-lsp-bridge-mode))
 #+end_src
