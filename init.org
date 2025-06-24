@@ -142,13 +142,6 @@ completion backends used by =completion-at-point= are so called
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package corfu-echo
-    :hook (corfu-mode . corfu-echo-mode)
-    :custom
-    (corfu-echo-delay '(0.5 . 0.2)))
-#+end_src
-
-#+begin_src emacs-lisp
   (use-package corfu-popupinfo
     :hook (corfu-mode . corfu-popupinfo-mode)
     :custom
@@ -494,9 +487,12 @@ considered a "package" unto itself.
 
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :bind ("C-c C-l" . lsp-mode)
+    :bind (("C-c C-l" . lsp-mode)
+           :map lsp-mode-map
+           ("C-q" . lsp-ui-doc-glance))
     :custom
     (lsp-completion-provider :none) ;; we use Corfu!
+    (lsp-eldoc-enable-hover nil)
     (lsp-headerline-breadcrumb-enable nil)
     (lsp-keymap-prefix "C-c l")
     (lsp-modeline-code-action-fallback-icon "")
