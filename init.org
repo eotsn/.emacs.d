@@ -131,12 +131,9 @@ completion backends used by =completion-at-point= are so called
   (use-package corfu
     :custom
     (completion-ignore-case t)
-    (corfu-auto t)
-    (corfu-auto-delay 0)
-    (corfu-auto-prefix 1)
     (tab-always-indent 'complete)
     :config
-    (bind-key "C-SPC" #'corfu-insert-separator corfu-map)
+    (bind-key "SPC" #'corfu-insert-separator corfu-map)
     (add-hook 'eshell-mode-hook (lambda ()
                                   (setq-local corfu-auto nil)))
     ;; Free the RET key for less intrusive behavior.
